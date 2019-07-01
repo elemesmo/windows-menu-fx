@@ -80,8 +80,8 @@
           <circle id="mouse-mask" cx="-100" cy="-100"></circle>
         </mask>
       </defs>
-      <filter id="blur-effect-1">
-        <feGaussianBlur stdDeviation="25" />
+      <filter id="blur-effect-1" filterUnits="userSpaceOnUse">
+        <feGaussianBlur stdDeviation="30" />
       </filter>
     </svg>
 
@@ -131,7 +131,7 @@
         let config = { itemSize: 50, iconSize: "fa-sm", fontSize: 12, gridGap: 0, showText: true };
 
         // - init mask
-        let maskSize = config.itemSize + config.itemSize / 3;
+        let maskSize = config.itemSize;
         document.getElementById("mouse-mask").setAttribute("r", maskSize);
 
         // - Make grid - feed nav menu
