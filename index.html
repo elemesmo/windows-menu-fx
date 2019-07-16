@@ -10,68 +10,9 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://kit.fontawesome.com/e9c539c5d2.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="main.css" />
     <title>Windows mouse effect</title>
-    <style type="text/css">
-      body {
-        margin: 0;
-        padding: 0;
-        background: black;
-      }
-
-      svg#stage {
-        position: fixed;
-        display: block;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 999999999999999999999;
-      }
-      .base-square {
-        fill: transparent;
-        stroke: rgba(255, 255, 255, 0.5);
-        stroke-width: 1px;
-        mask: url(#mask1);
-      }
-      .base-nav {
-        display: block;
-        position: relative;
-        background-color: transparent;
-        cursor: pointer;
-      }
-      .base-nav > .svg-icon > svg {
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .base-nav:hover {
-        background-color: rgba(200, 200, 200, 0.3);
-      }
-      .base-nav:active {
-        background-color: rgba(255, 255, 255, 0.3);
-      }
-
-      .base-nav > .menu-title {
-        position: absolute;
-        font-family: sans-serif;
-        color: white;
-        white-space: nowrap;
-        user-select: none;
-        pointer-events: none;
-        transition: 0.4s all ease;
-        left: calc(100% - 15px);
-        opacity: 0;
-      }
-      .base-nav:hover > .menu-title {
-        left: calc(100% + 15px);
-        opacity: 1;
-      }
-      #mouse-mask {
-        filter: url(#blur-effect-1);
-        fill: #ffffff;
-      }
-    </style>
   </head>
   <body>
     <svg id="stage">
@@ -86,73 +27,5 @@
     </svg>
 
     <nav id="menu"></nav>
-
-    <script>
-      // - Fake data
-      let menus = [
-        { title: "Menu 1", icon: "fas fa-cat" },
-        { title: "Menu 2", icon: "fas fa-rocket" },
-        { title: "Menu 3", icon: "fas fa-camera" },
-        { title: "Menu 4", icon: "fas fa-flask" },
-        { title: "Menu 5", icon: "fas fa-address-book" }
-      ];
-
-      const makeSvgGridItem = function(config, index) {
-        let position = `y="${(config.itemSize + config.gridGap) * index}"`;
-        let size = `width="${config.itemSize}" height="${config.itemSize}"`;
-        return `<rect class="base-square" ${position} ${size} />`;
-      };
-
-      const makeNavGridItem = function(menu, config, index) {
-        let menuTitle = !config.showText ? `title="${menu.title}"` : ``;
-        let margin = `margin-bottom: ${config.gridGap}px;`;
-        let size = `width: ${config.itemSize}px; height: ${config.itemSize}px;`;
-        let textTop = `top: ${config.itemSize / 2 - config.fontSize / 2}px;`;
-        let textFontSize = `font-size: ${config.fontSize}px;`;
-        let menuText = config.showText
-          ? `
-        <span class="menu-title" style="${textTop} ${textFontSize}">
-          ${menu.title}
-        </span>`
-          : ``;
-        return `
-      <div class="base-nav" ${menuTitle} style="${size} ${margin}">
-        <span class="svg-icon">
-          <i class="${menu.icon} ${config.iconSize}" style="color: #ffffff"></i>
-        </span>
-        ${menuText}
-      </div>`;
-      };
-
-      $(document).ready(function() {
-        // - Init
-        let svgStage = $("#stage");
-        let navMenu = $("#menu");
-        let config = { itemSize: 50, iconSize: "fa-sm", fontSize: 12, gridGap: 0, showText: true };
-
-        // - init mask
-        let maskSize = config.itemSize;
-        document.getElementById("mouse-mask").setAttribute("r", maskSize);
-
-        // - Make grid - feed nav menu
-        let navGridMarkup = "";
-        let svgGridMarkup = "";
-        menus.forEach(function(menu, index) {
-          navGridMarkup += makeNavGridItem(menu, config, index);
-          svgGridMarkup += makeSvgGridItem(config, index);
-        });
-
-        // - feed
-        svgStage.html(svgStage.html() + svgGridMarkup);
-        navMenu.html(navMenu.html() + navGridMarkup);
-
-        // - stick mask to mousemove
-        $(document).mousemove(function(e) {
-          let mouseMask = document.getElementById("mouse-mask");
-          mouseMask.setAttribute("cx", e.clientX);
-          mouseMask.setAttribute("cy", e.clientY);
-        });
-      });
-    </script>
   </body>
 </html>
