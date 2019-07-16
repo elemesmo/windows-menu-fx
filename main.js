@@ -7,12 +7,14 @@ let menus = [
   { title: "Menu 5", icon: "fas fa-address-book" }
 ];
 
+// - Make svg grid itens
 const makeSvgGridItem = function(config, index) {
   let position = `y="${(config.itemSize + config.gridGap) * index}"`;
   let size = `width="${config.itemSize}" height="${config.itemSize}"`;
   return `<rect class="base-square" ${position} ${size} />`;
 };
 
+// - Make menu itens
 const makeNavGridItem = function(menu, config, index) {
   let menuTitle = !config.showText ? `title="${menu.title}"` : ``;
   let margin = `margin-bottom: ${config.gridGap}px;`;
@@ -34,17 +36,18 @@ const makeNavGridItem = function(menu, config, index) {
       </div>`;
 };
 
+// - Ready
 $(document).ready(function() {
-  // - Init
+  // - Init and config
   let svgStage = $("#stage");
   let navMenu = $("#menu");
   let config = { itemSize: 45, iconSize: "fa-xs", fontSize: 12, gridGap: 0, showText: true };
 
-  // - init mask
-  let maskSize = config.itemSize;
+  // - Init Mask
+  let maskSize = config.itemSize; // could be something else
   document.getElementById("mouse-mask").setAttribute("r", maskSize);
 
-  // - Make grid - feed nav menu
+  // - Make the svg grid and menu itens html markup
   let navGridMarkup = "";
   let svgGridMarkup = "";
   menus.forEach(function(menu, index) {
@@ -52,11 +55,11 @@ $(document).ready(function() {
     svgGridMarkup += makeSvgGridItem(config, index);
   });
 
-  // - feed
+  // - Feed html to parent elements
   svgStage.html(svgStage.html() + svgGridMarkup);
   navMenu.html(navMenu.html() + navGridMarkup);
 
-  // - stick mask to mousemove
+  // - Stick mask to mouse movement
   $(document).mousemove(function(e) {
     let mouseMask = document.getElementById("mouse-mask");
     mouseMask.setAttribute("cx", e.clientX);
