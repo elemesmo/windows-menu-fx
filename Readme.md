@@ -6,3 +6,5 @@ Recreated the same effect that Windows OS has on the menus.
 
 - Download or clone the project.
 - Open the html (don't need a server)
+
+### [Preview](https://elemesmo.github.io/windows-menu-fx/)
